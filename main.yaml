@@ -1,0 +1,560 @@
+substitutions:
+  node_name: compactio
+
+<<: !include common.yaml
+<<: !include compactio_v1.3.yaml
+<<: !include ethernet.yaml
+#<<: !include wifi.yaml
+
+
+
+logger:
+  level: INFO
+
+  # For S3 UART
+  baud_rate: 115200
+
+  # For S3 USB
+  #hardware_uart: USB_SERIAL_JTAG
+
+
+binary_sensor:
+  - platform: gpio
+    name: "I0-1"
+    pin:
+      sn74hc165: inputs
+      number: 20
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - light.toggle: light0
+  - platform: gpio
+    name: "I0-2"
+    pin:
+      sn74hc165: inputs
+      number: 21
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - light.toggle: light1
+  - platform: gpio
+    name: "I0-3"
+    pin:
+      sn74hc165: inputs
+      number: 22
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - light.toggle: light2
+  - platform: gpio
+    name: "I0-4"
+    pin:
+      sn74hc165: inputs
+      number: 23
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - light.toggle: light3
+  - platform: gpio
+    name: "I0-5"
+    pin:
+      sn74hc165: inputs
+      number: 0
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - lambda: |-
+            cover_open_or_stop(cover0);
+  - platform: gpio
+    name: "I0-6"
+    pin:
+      sn74hc165: inputs
+      number: 1
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - lambda: |-
+            cover_close_or_stop(cover0);
+#  - platform: gpio
+#    name: "I0-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 2
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 3
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 4
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 5
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 6
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 7
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 8
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I1-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 9
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 10
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 11
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 12
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 13
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 14
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 15
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I2-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 48
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 49
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 50
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 51
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 52
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 53
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 54
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I3-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 55
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 29
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 30
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 31
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 16
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 17
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 18
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I4-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 19
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 38
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 39
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 24
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 25
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 26
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 27
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I5-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 28
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 47
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 32
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 33
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 34
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 35
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 36
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I6-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 37
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 40
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 41
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 42
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 43
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 44
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 45
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "I7-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 46
+#      inverted: true
+#      mode:
+#        input: true
+
+switch:
+  - platform: restart
+    name: "$node_name restart"
+  - platform: gpio
+    id: button_up
+    name: "Button Up"
+    pin:
+      number: 0
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+  - platform: gpio
+    id: button_ok
+    name: "Button OK"
+    pin:
+      number: 1
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+  - platform: gpio
+    id: button_down
+    name: "Button Down"
+    pin:
+      number: 2
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+light:
+  - platform: binary
+    id: light0
+    name: "Light 0"
+    output: out_port0_pin0
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: binary
+    id: light1
+    name: "Light 1"
+    output: out_port0_pin1
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: binary
+    id: light2
+    name: "Light 2"
+    output: out_port0_pin2
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: binary
+    id: light3
+    name: "Light 3"
+    output: out_port0_pin3
+    restore_mode: RESTORE_DEFAULT_OFF
+
+cover:
+  - platform: time_based
+    id: cover0
+    name: "Cover 0"
+    device_class: shutter
+    open_action:
+      - output.turn_off: out_port0_pin5
+      - output.turn_on: out_port0_pin4
+    open_duration: 10s
+
+    close_action:
+      - output.turn_on: out_port0_pin5
+      - output.turn_on: out_port0_pin4
+    close_duration: 8s
+
+    stop_action:
+      - output.turn_off: out_port0_pin5
+      - output.turn_off: out_port0_pin4

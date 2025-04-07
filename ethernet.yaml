@@ -1,0 +1,29 @@
+ethernet:
+  type: W5500
+  cs_pin: 40
+  clk_pin: 36
+  mosi_pin: 38
+  miso_pin: 37
+  interrupt_pin: 39
+  reset_pin: 35
+  clock_speed: 33000000
+
+text_sensor:
+  - platform: ethernet_info
+    ip_address:
+      name: ESP IP Address
+      id: ip_address
+  - platform: template
+    name: "$node_name Last Restart Time"
+    id: last_restart_time
+    icon: mdi:clock
+    entity_category: diagnostic
+  - platform: template
+    id: node_name_uppercase
+    lambda: |-
+      auto nodeName = std::string("$node_name");
+      std::transform(nodeName.begin(), nodeName.end(), nodeName.begin(),
+               [](unsigned char c){ return std::toupper(c); });
+
+      return nodeName;
+    update_interval: 3600s

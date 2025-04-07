@@ -1,0 +1,64 @@
+esphome:
+  name: $node_name
+  includes:
+    - custom_components/functions.h
+
+external_components:
+  - source:
+      type: local
+      path: custom_components
+
+time:
+  - platform: sntp
+    id: sntp_time
+    on_time_sync:
+      then:
+        # Update last restart time, but only once.
+        - if:
+            condition:
+              lambda: 'return id(last_restart_timestamp) == 0 || id(sntp_time).utcnow().timestamp < id(last_restart_timestamp);'
+            then:
+              - lambda: |-
+                  id(last_restart_timestamp) = id(sntp_time).utcnow().timestamp;
+              - text_sensor.template.publish:
+                  id: last_restart_time
+                  state: !lambda 'return id(sntp_time).utcnow().strftime("%Y-%m-%dT%H:%M:%S.000000+00:00");'
+              - sensor.template.publish:
+                  id: last_restart_timestamp_sensor
+                  state: !lambda 'return id(sntp_time).utcnow().timestamp;'
+  - platform: homeassistant
+    id: homeassistant_time
+    on_time_sync:
+      then:
+        # Update last restart time, but only once.
+        - if:
+            condition:
+              lambda: 'return id(last_restart_timestamp) == 0 || id(homeassistant_time).utcnow().timestamp < id(last_restart_timestamp);'
+            then:
+              - text_sensor.template.publish:
+                  id: last_restart_time
+                  state: !lambda 'return id(homeassistant_time).utcnow().strftime("%Y-%m-%dT%H:%M:%S.000000+00:00");'
+              - lambda: |-
+                  id(last_restart_timestamp) = id(homeassistant_time).utcnow().timestamp;
+
+# Enable Home Assistant API
+api:
+  reboot_timeout: 0s
+
+ota:
+  platform: esphome
+web_server:
+  port: 80
+
+globals:
+  - id: last_restart_timestamp
+    type: time_t
+    restore_value: no
+    initial_value: '0'
+sensor:
+  - platform: template
+    id: last_restart_timestamp_sensor
+    name: "$node_name Last Restart Timestamp"
+    update_interval: never
+    device_class: timestamp
+

@@ -1,0 +1,30 @@
+wifi:
+  networks:
+    - ssid: "<ssid>"
+      password: "<password>"
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      id: ip_address
+  - platform: template
+    name: "$node_name Last Restart Time"
+    id: last_restart_time
+    icon: mdi:clock
+    entity_category: diagnostic
+  - platform: template
+    id: node_name_uppercase
+    lambda: |-
+      auto nodeName = std::string("$node_name");
+      std::transform(nodeName.begin(), nodeName.end(), nodeName.begin(),
+               [](unsigned char c){ return std::toupper(c); });
+
+      return nodeName;
+    update_interval: 3600s
+  - platform: debug
+    device:
+      name: "$node_name Device Info"
+      entity_category: diagnostic
+    reset_reason:
+      name: "$node_name Reset Reason"
+      entity_category: diagnostic

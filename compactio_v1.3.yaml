@@ -1,0 +1,437 @@
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+
+i2c:
+  sda: 42
+  scl: 41
+  frequency: 400kHz
+
+font:
+  - file: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+    id: my_font
+    size: 12
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    address: 0x3C
+    lambda: |-
+      auto seconds = id(sntp_time).utcnow().timestamp - id(last_restart_timestamp);
+      int days = seconds / (24 * 3600);
+      seconds = seconds % (24 * 3600);
+      int hours = seconds / 3600;
+      seconds = seconds % 3600;
+      int minutes = seconds /  60;
+      seconds = seconds % 60;
+
+      it.print(0, 0, id(my_font), id(node_name_uppercase).state.c_str());
+      it.strftime(90, 0, id(my_font), "%H:%M", id(sntp_time).now());
+      it.printf(5, 15, id(my_font), "IP: %s", id(ip_address).state.c_str());
+      if (id(last_restart_timestamp) == 0) {
+        it.printf(5, 30, id(my_font), "Connecting...");
+      } else {
+        it.printf(5, 30, id(my_font), "Up: %dd %02d:%02d:%02d", days, hours, minutes, seconds);
+      }
+
+sn74hc165:
+  id: 'inputs'
+  data_pin: 17
+  clock_pin: 16
+  load_pin: 15
+  # input_pin: 45
+  sr_count: 7
+
+sn74hc595:
+  id: 'outputs'
+  data_pin: 46
+  clock_pin: 18
+  latch_pin: 21
+  oe_pin: 47
+  sr_count: 8
+
+
+output:
+  - platform: gpio
+    id: out_port3_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 0
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 1
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 2
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 3
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 4
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 5
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 6
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 7
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 8
+      inverted: false
+  - platform: gpio
+    id: out_port3_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 9
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 10
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 11
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 12
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 13
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 14
+      inverted: false
+  - platform: gpio
+    id: out_port2_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 15
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 16
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 17
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 18
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 19
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 20
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 21
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 22
+      inverted: false
+  - platform: gpio
+    id: out_port1_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 23
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 24
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 25
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 26
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 27
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 28
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 29
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 30
+      inverted: false
+  - platform: gpio
+    id: out_port0_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 31
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 32
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 33
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 34
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 35
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 36
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 37
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 38
+      inverted: false
+  - platform: gpio
+    id: out_port4_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 39
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 40
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 41
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 42
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 43
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 44
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 45
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 46
+      inverted: false
+  - platform: gpio
+    id: out_port5_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 47
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 48
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 49
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 50
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 51
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 52
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 53
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 54
+      inverted: false
+  - platform: gpio
+    id: out_port6_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 55
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin0
+    pin:
+      sn74hc595: 'outputs'
+      number: 56
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin1
+    pin:
+      sn74hc595: 'outputs'
+      number: 57
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin2
+    pin:
+      sn74hc595: 'outputs'
+      number: 58
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin3
+    pin:
+      sn74hc595: 'outputs'
+      number: 59
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin4
+    pin:
+      sn74hc595: 'outputs'
+      number: 60
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin5
+    pin:
+      sn74hc595: 'outputs'
+      number: 61
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin6
+    pin:
+      sn74hc595: 'outputs'
+      number: 62
+      inverted: false
+  - platform: gpio
+    id: out_port7_pin7
+    pin:
+      sn74hc595: 'outputs'
+      number: 63
+      inverted: false
