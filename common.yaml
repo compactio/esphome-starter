@@ -2,7 +2,9 @@ esphome:
   name: $node_name
   includes:
     - custom_components/functions.h
-
+esp32:
+  framework:
+    type: esp-idf
 external_components:
   - source:
       type: local
@@ -11,35 +13,18 @@ external_components:
 time:
   - platform: sntp
     id: sntp_time
-    on_time_sync:
-      then:
-        # Update last restart time, but only once.
-        - if:
-            condition:
-              lambda: 'return id(last_restart_timestamp) == 0 || id(sntp_time).utcnow().timestamp < id(last_restart_timestamp);'
-            then:
-              - lambda: |-
-                  id(last_restart_timestamp) = id(sntp_time).utcnow().timestamp;
-              - text_sensor.template.publish:
-                  id: last_restart_time
-                  state: !lambda 'return id(sntp_time).utcnow().strftime("%Y-%m-%dT%H:%M:%S.000000+00:00");'
-              - sensor.template.publish:
-                  id: last_restart_timestamp_sensor
-                  state: !lambda 'return id(sntp_time).utcnow().timestamp;'
+    timezone: Europe/Warsaw
   - platform: homeassistant
     id: homeassistant_time
-    on_time_sync:
-      then:
-        # Update last restart time, but only once.
-        - if:
-            condition:
-              lambda: 'return id(last_restart_timestamp) == 0 || id(homeassistant_time).utcnow().timestamp < id(last_restart_timestamp);'
-            then:
-              - text_sensor.template.publish:
-                  id: last_restart_time
-                  state: !lambda 'return id(homeassistant_time).utcnow().strftime("%Y-%m-%dT%H:%M:%S.000000+00:00");'
-              - lambda: |-
-                  id(last_restart_timestamp) = id(homeassistant_time).utcnow().timestamp;
+
+logger:
+  level: INFO
+
+  # For S3 UART
+  baud_rate: 115200
+
+  # For S3 USB
+  #hardware_uart: USB_SERIAL_JTAG
 
 # Enable Home Assistant API
 api:
@@ -50,12 +35,46 @@ ota:
 web_server:
   port: 80
 
+debug:
+  update_interval: 5s
+
+switch:
+  - platform: restart
+    name: "$node_name restart"
+  - platform: factory_reset
+    name: "$node_name factory reset"
+
+text_sensor:
+  - platform: template
+    id: node_name_uppercase
+    lambda: |-
+      auto nodeName = std::string("$node_name");
+      std::transform(nodeName.begin(), nodeName.end(), nodeName.begin(),
+               [](unsigned char c){ return std::toupper(c); });
+
+      return nodeName;
+    update_interval: 3600s
+  - platform: debug
+    device:
+      name: "$node_name Device Info"
+      entity_category: diagnostic
+    reset_reason:
+      name: "$node_name Reset Reason"
+      entity_category: diagnostic
+
 globals:
   - id: last_restart_timestamp
     type: time_t
     restore_value: no
     initial_value: '0'
 sensor:
+  - platform: debug
+    free:
+      name: "$node_name Heap Free"
+    block:
+      name: "$node_name Heap Max Block"
+    loop_time:
+      name: "$node_name Loop Time"
   - platform: template
     id: last_restart_timestamp_sensor
     name: "$node_name Last Restart Timestamp"

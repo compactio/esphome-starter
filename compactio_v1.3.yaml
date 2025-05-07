@@ -11,12 +11,29 @@ font:
   - file: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
     id: my_font
     size: 12
+sensor:
+  - platform: uptime
+    id: uptime_seconds
+    update_interval: 1s
+    name: $node_name uptime
+globals:
+  - id: display_offset
+    type: int
+    initial_value: 'random() % 10'
+  - id: screen_turn_on
+    type: long
+    initial_value: '0'
 display:
   - platform: ssd1306_i2c
+    id: main_display
     model: "SSD1306 128x64"
     address: 0x3C
     lambda: |-
-      auto seconds = id(sntp_time).utcnow().timestamp - id(last_restart_timestamp);
+      if (id(screen_turn_on) + 900 < long(id(uptime_seconds).state)) {
+        return; // Do not display anything if screen is off
+      }
+
+      auto seconds = long(id(uptime_seconds).state);
       int days = seconds / (24 * 3600);
       seconds = seconds % (24 * 3600);
       int hours = seconds / 3600;
@@ -24,14 +41,57 @@ display:
       int minutes = seconds /  60;
       seconds = seconds % 60;
 
-      it.print(0, 0, id(my_font), id(node_name_uppercase).state.c_str());
-      it.strftime(90, 0, id(my_font), "%H:%M", id(sntp_time).now());
-      it.printf(5, 15, id(my_font), "IP: %s", id(ip_address).state.c_str());
-      if (id(last_restart_timestamp) == 0) {
-        it.printf(5, 30, id(my_font), "Connecting...");
-      } else {
-        it.printf(5, 30, id(my_font), "Up: %dd %02d:%02d:%02d", days, hours, minutes, seconds);
-      }
+      int xOffset = id(display_offset) % 2;
+      int yOffset = id(display_offset) % 5;
+
+      it.print(xOffset, yOffset, id(my_font), id(node_name_uppercase).state.c_str());
+      it.strftime(90+xOffset, yOffset, id(my_font), "%H:%M", id(sntp_time).now());
+      it.printf(xOffset, 15+yOffset, id(my_font), "IP: %s", id(ip_address).state.c_str());
+      it.printf(xOffset, 30+yOffset, id(my_font), "Up: %dd %02d:%02d:%02d", days, hours, minutes, seconds);
+
+binary_sensor:
+  - platform: gpio
+    id: button_up
+    name: "Button Up"
+    pin:
+      number: 0
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    on_press:
+      - lambda: |-
+          id(screen_turn_on) = long(id(uptime_seconds).state);
+          id(display_offset) = random() % 10;
+      - component.update: main_display
+  - platform: gpio
+    id: button_ok
+    name: "Button OK"
+    pin:
+      number: 1
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    on_press:
+      - lambda: |-
+          id(screen_turn_on) = long(id(uptime_seconds).state);
+          id(display_offset) = random() % 10;
+      - component.update: main_display
+  - platform: gpio
+    id: button_down
+    name: "Button Down"
+    pin:
+      number: 2
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    on_press:
+      - lambda: |-
+          id(screen_turn_on) = long(id(uptime_seconds).state);
+          id(display_offset) = random() % 10;
+      - component.update: main_display
 
 sn74hc165:
   id: 'inputs'
@@ -46,7 +106,7 @@ sn74hc595:
   data_pin: 46
   clock_pin: 18
   latch_pin: 21
-  oe_pin: 47
+  oe_pin: 47 # v1.3 +fix
   sr_count: 8
 
 
@@ -435,3 +495,8 @@ output:
       sn74hc595: 'outputs'
       number: 63
       inverted: false
+  - platform: gpio
+    id: green_led
+    pin: 43
+    inverted: true
+

@@ -1,0 +1,463 @@
+binary_sensor:
+  - platform: gpio
+    name: "Input0-1"
+    pin:
+      sn74hc165: inputs
+      number: 20
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - light.toggle: light0
+  - platform: gpio
+    name: "Input0-2"
+    pin:
+      sn74hc165: inputs
+      number: 21
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - light.toggle: light1
+  - platform: gpio
+    name: "Input0-3"
+    pin:
+      sn74hc165: inputs
+      number: 22
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - lambda: |-
+            cover_open_or_stop(cover0);
+  - platform: gpio
+    name: "Input0-4"
+    pin:
+      sn74hc165: inputs
+      number: 23
+      inverted: true
+      mode:
+        input: true
+    on_press:
+      then:
+        - lambda: |-
+            cover_close_or_stop(cover0);
+#  - platform: gpio
+#    name: "Input0-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 0
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input0-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 1
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input0-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 2
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 3
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 4
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 5
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 6
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 7
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 8
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input1-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 9
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 10
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 11
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 12
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 13
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 14
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 15
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input2-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 48
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 49
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 50
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 51
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 52
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 53
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 54
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input3-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 55
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 29
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 30
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 31
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 16
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 17
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 18
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input4-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 19
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 38
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 39
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 24
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 25
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 26
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 27
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input5-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 28
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 47
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 32
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 33
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 34
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 35
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 36
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input6-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 37
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-1"
+#    pin:
+#      sn74hc165: inputs
+#      number: 40
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-2"
+#    pin:
+#      sn74hc165: inputs
+#      number: 41
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-3"
+#    pin:
+#      sn74hc165: inputs
+#      number: 42
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-4"
+#    pin:
+#      sn74hc165: inputs
+#      number: 43
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-5"
+#    pin:
+#      sn74hc165: inputs
+#      number: 44
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-6"
+#    pin:
+#      sn74hc165: inputs
+#      number: 45
+#      inverted: true
+#      mode:
+#        input: true
+#  - platform: gpio
+#    name: "Input7-7"
+#    pin:
+#      sn74hc165: inputs
+#      number: 46
+#      inverted: true
+#      mode:
+#        input: true

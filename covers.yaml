@@ -1,0 +1,24 @@
+cover:
+  - platform: time_based
+    id: cover0
+    name: "Cover 0"
+    device_class: shutter
+    open_action:
+      # Select direction
+      - output.turn_off: out_port0_pin3
+      # Enable motor
+      - output.turn_on: out_port0_pin2
+    open_duration: 10s
+
+    close_action:
+      # Select direction
+      - output.turn_on: out_port0_pin3
+      # Enable motor
+      - output.turn_on: out_port0_pin2
+    close_duration: 8s
+
+    stop_action:
+      # Turn off direction relay to conserve power
+      - output.turn_off: out_port0_pin3
+      # Disable motor
+      - output.turn_off: out_port0_pin2
