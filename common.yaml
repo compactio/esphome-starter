@@ -1,14 +1,10 @@
 esphome:
   name: $node_name
   includes:
-    - custom_components/functions.h
+    - include/functions.h
 esp32:
   framework:
     type: esp-idf
-external_components:
-  - source:
-      type: local
-      path: custom_components
 
 time:
   - platform: sntp
