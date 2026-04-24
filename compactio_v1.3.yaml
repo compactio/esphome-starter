@@ -8,7 +8,7 @@ i2c:
   frequency: 400kHz
 
 font:
-  - file: "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+  - file: "fonts/DejaVuSans.ttf"
     id: my_font
     size: 12
 sensor:
